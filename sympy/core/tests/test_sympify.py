@@ -35,10 +35,9 @@ def test_sympify1():
     assert sympify("   x") == Symbol("x")
     assert sympify("   x   ") == Symbol("x")
     # issue 4877
-    n1 = S.Half
-    assert sympify('--.5') == n1
-    assert sympify('-1/2') == -n1
-    assert sympify('-+--.5') == -n1
+    assert sympify('--.5') == 0.5
+    assert sympify('-1/2') == -S.Half
+    assert sympify('-+--.5') == -0.5
     assert sympify('-.[3]') == Rational(-1, 3)
     assert sympify('.[3]') == Rational(1, 3)
     assert sympify('+.[3]') == Rational(1, 3)
@@ -116,6 +115,7 @@ def test_sympify_mpmath():
     assert sympify(
         mpmath.pi).epsilon_eq(Float("3.14159"), Float("1e-6")) == False
 
+    mpmath.mp.dps = 15
     assert sympify(mpmath.mpc(1.0 + 2.0j)) == Float(1.0) + Float(2.0)*I
 
     assert sympify(mpq(1, 2)) == S.Half
@@ -399,7 +399,7 @@ def test_int_float():
     f1_1c = F1_1c()
     assert sympify(i5) == 5
     assert isinstance(sympify(i5), Integer)
-    assert sympify(i5b) == 5
+    assert sympify(i5b) == 5.0
     assert isinstance(sympify(i5b), Float)
     assert sympify(i5c) == 5
     assert isinstance(sympify(i5c), Integer)
@@ -409,7 +409,7 @@ def test_int_float():
 
     assert _sympify(i5) == 5
     assert isinstance(_sympify(i5), Integer)
-    assert _sympify(i5b) == 5
+    assert _sympify(i5b) == 5.0
     assert isinstance(_sympify(i5b), Float)
     assert _sympify(i5c) == 5
     assert isinstance(_sympify(i5c), Integer)
@@ -612,10 +612,11 @@ def test_sympify_numpy():
     assert equal(sympify(np.float64(1.1234567891234)),
                 Float(1.1234567891234, precision=53))
     assert equal(sympify(np.longdouble(1.123456789)),
-                 Float(1.123456789, precision=80))
+                 Float(1.123456789, precision=64))
     assert equal(sympify(np.complex64(1 + 2j)), S(1.0 + 2.0*I))
     assert equal(sympify(np.complex128(1 + 2j)), S(1.0 + 2.0*I))
-    assert equal(sympify(np.longcomplex(1 + 2j)), S(1.0 + 2.0*I))
+    assert equal(sympify(np.longcomplex(1 + 2j)),
+                Float(1.0, precision=64) + Float(2.0, precision=64)*I)
 
     #float96 does not exist on all platforms
     if hasattr(np, 'float96'):
@@ -624,7 +625,7 @@ def test_sympify_numpy():
     #float128 does not exist on all platforms
     if hasattr(np, 'float128'):
         assert equal(sympify(np.float128(1.123456789123)),
-                    Float(1.123456789123, precision=80))
+                    Float(1.123456789123, precision=64))
 
 
 @XFAIL
@@ -756,9 +757,9 @@ def test_issue_14706():
 
     assert sympify(numpy.array([1])) == ImmutableDenseNDimArray([1], 1)
     assert sympify(numpy.array([[[1]]])) == ImmutableDenseNDimArray([1], (1, 1, 1))
-    assert sympify(z1) == ImmutableDenseNDimArray([0], (1, 1))
-    assert sympify(z2) == ImmutableDenseNDimArray([0, 0, 0, 0], (2, 2))
-    assert sympify(z3) == ImmutableDenseNDimArray([0], ())
+    assert sympify(z1) == ImmutableDenseNDimArray([0.0], (1, 1))
+    assert sympify(z2) == ImmutableDenseNDimArray([0.0, 0.0, 0.0, 0.0], (2, 2))
+    assert sympify(z3) == ImmutableDenseNDimArray([0.0], ())
     assert sympify(z3, strict=True) == 0.0
 
     raises(SympifyError, lambda: sympify(numpy.array([1]), strict=True))

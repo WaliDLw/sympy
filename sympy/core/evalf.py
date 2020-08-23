@@ -924,7 +924,7 @@ def evalf_bernoulli(expr, prec, options):
 def as_mpmath(x, prec, options):
     from sympy.core.numbers import Infinity, NegativeInfinity, Zero
     x = sympify(x)
-    if isinstance(x, Zero) or x == 0:
+    if isinstance(x, Zero) or x == 0.0:
         return mpf(0)
     if isinstance(x, Infinity):
         return mpf('inf')
@@ -1324,7 +1324,7 @@ def evalf(x, prec, options):
         re, im = as_real_imag()
         if re.has(re_) or im.has(im_):
             raise NotImplementedError
-        if re == 0:
+        if re == 0.0:
             re = None
             reprec = None
         elif re.is_number:
@@ -1332,7 +1332,7 @@ def evalf(x, prec, options):
             reprec = prec
         else:
             raise NotImplementedError
-        if im == 0:
+        if im == 0.0:
             im = None
             imprec = None
         elif im.is_number:

@@ -154,7 +154,7 @@ class Mod(Function):
 
         # extract gcd; any further simplification should be done by the user
         G = gcd(p, q)
-        if G != 1:
+        if not (G == 1 or G.is_Float and G == G.round(0) and int(G) == 1):
             p, q = [
                 gcd_terms(i/G, clear=False, fraction=False) for i in (p, q)]
         pwas, qwas = p, q
@@ -181,7 +181,7 @@ class Mod(Function):
             ok = False
             if not cp.is_Rational or not cq.is_Rational:
                 r = cp % cq
-                if r == 0:
+                if r == r.round(0) and int(r) == 0:
                     G *= cq
                     p *= int(cp/cq)
                     ok = True
@@ -199,10 +199,10 @@ class Mod(Function):
             return rv*G
 
         # put 1.0 from G on inside
-        if G.is_Float and G == 1:
+        if G.is_Float and G == G.round(0) and int(G) == 1:
             p *= G
             return cls(p, q, evaluate=False)
-        elif G.is_Mul and G.args[0].is_Float and G.args[0] == 1:
+        elif G.is_Mul and G.args[0].is_Float and G.args[0] == G.args[0].round(0) and int(G.args[0]) == 1:
             p = G.args[0]*p
             G = Mul._from_args(G.args[1:])
         return G*cls(p, q, evaluate=(p, q) != (pwas, qwas))

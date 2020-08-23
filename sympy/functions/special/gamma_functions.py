@@ -675,7 +675,7 @@ class polygamma(Function):
         n = self.args[0]
         # the mpmath polygamma implementation valid only for nonnegative integers
         if n.is_number and n.is_real:
-            if (n.is_integer or n == int(n)) and n.is_nonnegative:
+            if (n.is_integer or n == n.round(0)) and n.is_nonnegative:
                 return super()._eval_evalf(prec)
 
     def fdiff(self, argindex=2):

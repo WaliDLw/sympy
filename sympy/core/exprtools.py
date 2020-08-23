@@ -388,9 +388,9 @@ class Factors:
                             if S.NegativeOne not in factors:
                                 factors[S.NegativeOne] = S.Zero
                             factors[S.NegativeOne] += a.exp
-                        elif a == 1:
+                        elif a == 1 or a == a.round(0) and int(a) == 1:
                             factors[a] = S.One
-                        elif a == -1:
+                        elif a == -1 or a == a.round(0) and int(a) == -1:
                             factors[-a] = S.One
                             factors[S.NegativeOne] = S.One
                         else:

@@ -1278,7 +1278,7 @@ def test_extractions():
     assert (2*x + 3).extract_additively(2*x) == 3
     assert x.extract_additively(0) == x
     assert S(2).extract_additively(x) is None
-    assert S(2.).extract_additively(2) is S.Zero
+    assert S(2.).extract_additively(2.) is S.Zero
     assert S(2*x + 3).extract_additively(x + 1) == x + 2
     assert S(2*x + 3).extract_additively(y + 1) is None
     assert S(2*x - 3).extract_additively(x + 1) is None
@@ -1886,12 +1886,12 @@ def test_round():
     assert n.round(-1) == 12340
 
     r = Float(str(n)).round(-4)
-    assert r == 10000
+    assert r == 10000.0
 
     assert n.round(-5) == 0
 
     assert str((pi + sqrt(2)).round(2)) == '4.56'
-    assert (10*(pi + sqrt(2))).round(-1) == 50
+    assert (10*(pi + sqrt(2))).round(-1) == 50.0
     raises(TypeError, lambda: round(x + 2, 2))
     assert str(S(2.3).round(1)) == '2.3'
     # rounding in SymPy (as in Decimal) should be
@@ -1924,11 +1924,16 @@ def test_round():
     assert S.Zero.round() == 0
 
     a = (Add(1, Float('1.' + '9'*27, ''), evaluate=0))
-    assert a.round(10) == Float('3.0000000000', '')
-    assert a.round(25) == Float('3.0000000000000000000000000', '')
-    assert a.round(26) == Float('3.00000000000000000000000000', '')
+    assert a.round(10) == Float('3.000000000000000000000000000', '')
+    assert a.round(25) == Float('3.000000000000000000000000000', '')
+    assert a.round(26) == Float('3.000000000000000000000000000', '')
     assert a.round(27) == Float('2.999999999999999999999999999', '')
     assert a.round(30) == Float('2.999999999999999999999999999', '')
+    #assert a.round(10) == Float('3.0000000000', '')
+    #assert a.round(25) == Float('3.0000000000000000000000000', '')
+    #assert a.round(26) == Float('3.00000000000000000000000000', '')
+    #assert a.round(27) == Float('2.999999999999999999999999999', '')
+    #assert a.round(30) == Float('2.999999999999999999999999999', '')
 
     raises(TypeError, lambda: x.round())
     f = Function('f')
