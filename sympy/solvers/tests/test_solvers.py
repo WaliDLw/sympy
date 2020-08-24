@@ -605,7 +605,7 @@ def test_solve_for_functions_derivatives():
     f = Function('f')
     soln = solve([f(x).diff(x) + f(x).diff(x, 2) - 1, f(x).diff(x) - f(x).diff(x, 2)],
             f(x).diff(x), f(x).diff(x, 2))
-    assert soln == { f(x).diff(x, 2): 1/2, f(x).diff(x): 1/2 }
+    assert soln == { f(x).diff(x, 2): S(1)/2, f(x).diff(x): S(1)/2 }
 
     soln = solve([f(x).diff(x, 2) + f(x).diff(x, 3) - 1, 1 - f(x).diff(x, 2) -
             f(x).diff(x, 3), 1 - f(x).diff(x,3)], f(x).diff(x, 2), f(x).diff(x, 3))

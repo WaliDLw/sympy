@@ -1,5 +1,5 @@
 from sympy import (Eq, Matrix, pi, sin, sqrt, Symbol, Integral, Piecewise,
-    symbols, Float, I, Rational)
+    symbols, Float, I, Rational, nfloat)
 from mpmath import mnorm, mpf
 from sympy.solvers import nsolve
 from sympy.utilities.lambdify import lambdify
@@ -56,7 +56,7 @@ def test_nsolve():
         root = nsolve(f, (x, y, z), x0)
         assert mnorm(F(*root), 1) <= 1.e-8
         return root
-    assert list(map(round, getroot((1, 1, 1)))) == [2.0, 1.0, 0.0]
+    assert list(map(round, getroot((1, 1, 1)))) == [2, 1, 0]
     assert nsolve([Eq(
         f1, 0), Eq(f2, 0), Eq(f3, 0)], [x, y, z], (1, 1, 1))  # just see that it works
     a = Symbol('a')
@@ -130,5 +130,5 @@ def test_issue_14950():
     x = Matrix(symbols('t s'))
     x0 = Matrix([17, 23])
     eqn = x + x0
-    assert nsolve(eqn, x, x0) == -x0
-    assert nsolve(eqn.T, x.T, x0.T) == -x0
+    assert nsolve(eqn, x, x0) == nfloat(-x0)
+    assert nsolve(eqn.T, x.T, x0.T) == nfloat(-x0)
