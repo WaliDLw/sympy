@@ -182,7 +182,7 @@ def _pi_coeff(arg, cycles=1):
                     m = 2**p
                     cm = c*m
                     i = int(cm)
-                    if i == cm:
+                    if i == cm or cm == cm.round(0):
                         c = Rational(i, m)
                         cx = c*x
                 else:

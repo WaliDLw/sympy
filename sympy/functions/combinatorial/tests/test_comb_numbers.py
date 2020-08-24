@@ -91,7 +91,7 @@ def test_fibonacci():
         2**(-n)*sqrt(5)*((1 + sqrt(5))**n - (-sqrt(5) + 1)**n) / 5
     assert fibonacci(n).rewrite(sqrt).subs(n, 10).expand() == fibonacci(10)
     assert fibonacci(n).rewrite(GoldenRatio).subs(n,10).evalf() == \
-        fibonacci(10)
+        fibonacci(10).evalf()
     assert lucas(n).rewrite(sqrt) == \
         (fibonacci(n-1).rewrite(sqrt) + fibonacci(n+1).rewrite(sqrt)).simplify()
     assert lucas(n).rewrite(sqrt).subs(n, 10).expand() == lucas(10)
@@ -122,7 +122,7 @@ def test_tribonacci():
       + c**(n + 1)/((c - a)*(c - b)))
     assert tribonacci(n).rewrite(sqrt).subs(n, 4).simplify() == tribonacci(4)
     assert tribonacci(n).rewrite(GoldenRatio).subs(n,10).evalf() == \
-        tribonacci(10)
+        tribonacci(10).evalf()
     assert tribonacci(n).rewrite(TribonacciConstant) == floor(
             3*TribonacciConstant**n*(102*sqrt(33) + 586)**Rational(1, 3)/
             (-2*(102*sqrt(33) + 586)**Rational(1, 3) + 4 + (102*sqrt(33)

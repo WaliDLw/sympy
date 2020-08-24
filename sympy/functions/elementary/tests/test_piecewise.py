@@ -1,9 +1,9 @@
 from sympy import (
     adjoint, And, Basic, conjugate, diff, expand, Eq, Function, I, ITE,
     Integral, integrate, Interval, KroneckerDelta, lambdify, log, Max, Min,
-    oo, Or, pi, Piecewise, piecewise_fold, Rational, solve, symbols, transpose,
-    cos, sin, exp, Abs, Ne, Not, Symbol, S, sqrt, Sum, Tuple, zoo, Float,
-    DiracDelta, Heaviside, Add, Mul, factorial, Ge, Contains)
+    oo, Or, pi, Piecewise, piecewise_fold, Rational, solve, symbols,
+    transpose, cos, sin, exp, Abs, Ne, Not, Symbol, S, sqrt, Sum, Tuple, zoo,
+    Float, DiracDelta, Heaviside, Add, Mul, factorial, Ge, Contains)
 from sympy.core.expr import unchanged
 from sympy.functions.elementary.piecewise import Undefined, ExprCondPair
 from sympy.printing import srepr
@@ -103,9 +103,9 @@ def test_piecewise1():
     assert p6.subs(x, n) == Undefined
 
     # Test evalf
-    assert p.evalf() == p
-    assert p.evalf(subs={x: -2}) == -1
-    assert p.evalf(subs={x: -1}) == 1
+    assert p.evalf() == Piecewise((-1.0, x < -1), (x**2, x < 0), (log(x), x >= 0))
+    assert p.evalf(subs={x: -2}) == -1.0
+    assert p.evalf(subs={x: -1}) == 1.0
     assert p.evalf(subs={x: 1}) == log(1)
     assert p6.evalf(subs={x: -5}) == Undefined
 
@@ -403,11 +403,11 @@ def test_piecewise_integrate4_symbolic_conditions():
         (-a + x, x <= Max(a, b)),
         (-a + Max(a, b), True))
 
-    p1 = Piecewise((0, x < a), (0.5, x > b), (1, True))
-    p2 = Piecewise((0.5, x > b), (0, x < a), (1, True))
-    p3 = Piecewise((0, x < a), (1, x < b), (0.5, True))
-    p4 = Piecewise((0.5, x > b), (1, x > a), (0, True))
-    p5 = Piecewise((1, And(a < x, x < b)), (0.5, x > b), (0, True))
+    p1 = Piecewise((0, x < a), (S.Half, x > b), (1, True))
+    p2 = Piecewise((S.Half, x > b), (0, x < a), (1, True))
+    p3 = Piecewise((0, x < a), (1, x < b), (S.Half, True))
+    p4 = Piecewise((S.Half, x > b), (1, x > a), (0, True))
+    p5 = Piecewise((1, And(a < x, x < b)), (S.Half, x > b), (0, True))
 
     # check values of a=1, b=3 (and reversed) with values
     # of y of 0, 1, 2, 3, 4
@@ -1149,7 +1149,7 @@ def test_unevaluated_integrals():
     # test it by replacing f(x) with x%2 which will not
     # affect the answer: the integrand is essentially 2 over
     # the domain of integration
-    assert Integral(p, (x, 0, 5)).subs(f(x), x%2).n() == 10
+    assert Integral(p, (x, 0, 5)).subs(f(x), x%2).n() == 10.0
 
     # this is a test of using _solve_inequality when
     # solve_univariate_inequality fails
