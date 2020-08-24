@@ -1087,7 +1087,7 @@ def check_convergence(numer, denom, n):
     if rate:
         return rate, None, None
     constant = dpol.LC() / npol.LC()
-    if abs(constant) != 1:
+    if not (abs(constant) == 1 or constant == constant.round(0) and int(constant) == 1):
         return rate, constant, None
     if npol.degree() == dpol.degree() == 0:
         return rate, constant, 0
@@ -1142,7 +1142,7 @@ def hypsum(expr, n, start, prec):
         alt = g < 0
         if abs(g) < 1:
             raise ValueError("Sum diverges like (%i)^n" % abs(1/g))
-        if p < 1 or (p == 1 and not alt):
+        if p < 1 or ((p == 1 or p == p.round(0) and int(p) == 1) and not alt):
             raise ValueError("Sum diverges like n^%i" % (-p))
         # We have polynomial convergence: use Richardson extrapolation
         vold = None
