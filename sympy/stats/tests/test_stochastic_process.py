@@ -218,7 +218,7 @@ def test_BernoulliProcess():
     assert P(B[1] > 0, B[2] <= 1).round(2) == Float(0.60, 2)
     assert P(B[12] * B[5] > 0).round(2) == Float(0.36, 2)
     assert P(B[12] * B[5] > 0, B[4] < 1).round(2) == Float(0.36, 2)
-    assert P(Eq(B[2], 1), B[2] > 0) == 1
+    assert P(Eq(B[2], 1), B[2] > 0) == 1.0
     assert P(Eq(B[5], 3)) == 0
     assert P(Eq(B[1], 1), B[1] < 0) == 0
     assert P(B[2] > 0, Eq(B[2], 1)) == 1
