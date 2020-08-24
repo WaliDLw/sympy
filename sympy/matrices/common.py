@@ -16,6 +16,7 @@ from sympy.core.compatibility import (
     Iterable, as_int, is_sequence, reduce)
 from sympy.core.decorators import call_highest_priority
 from sympy.core.logic import fuzzy_and
+from sympy.core.numbers import Integer
 from sympy.core.singleton import S
 from sympy.core.symbol import Symbol
 from sympy.core.sympify import sympify
@@ -2751,6 +2752,8 @@ class MatrixArithmetic(MatrixRequired):
             return a._eval_pow_by_recursion(exp)
 
         elif method is None and exp.is_Number and exp % 1 == 0:
+            if exp.is_Float:
+                exp = Integer(exp)
             # Decide heuristically which method to apply
             if a.rows == 2 and exp > 100000:
                 return jordan_pow(exp)
