@@ -5551,7 +5551,7 @@ def terms_gcd(f, *gens, **args):
         coeff = S.One
 
     term = Mul(*[x**j for x, j in zip(f.gens, J)])
-    if coeff == 1:
+    if coeff == 1 or coeff == coeff.round(0) and int(coeff) == 1:
         coeff = S.One
         if term == 1:
             return orig
