@@ -1,6 +1,6 @@
 from sympy import (
     Abs, And, binomial, Catalan, combsimp, cos, Derivative, E, Eq, exp, EulerGamma,
-    factorial, Function, harmonic, I, Integral, KroneckerDelta, log,
+    factorial, Float, Function, harmonic, I, Integral, KroneckerDelta, log,
     nan, oo, pi, Piecewise, Product, product, Rational, S, simplify, Identity,
     sin, sqrt, Sum, summation, Symbol, symbols, sympify, zeta, gamma,
     Indexed, Idx, IndexedBase, prod, Dummy, lowergamma, Range, floor,
@@ -263,7 +263,7 @@ def test_geometric_sums():
 
     #issue 11642:
     result = Sum(0.5**n, (n, 1, oo)).doit()
-    assert result == 1
+    assert result == 1.0
     assert result.is_Float
 
     result = Sum(0.25**n, (n, 1, oo)).doit()
@@ -271,7 +271,7 @@ def test_geometric_sums():
     assert result.is_Float
 
     result = Sum(0.99999**n, (n, 1, oo)).doit()
-    assert result == 99999
+    assert result == 99999.0
     assert result.is_Float
 
     result = Sum(S.Half**n, (n, 1, oo)).doit()
@@ -756,7 +756,7 @@ def test_issue_4171():
 
 
 def test_issue_6273():
-    assert Sum(x, (x, 1, n)).n(2, subs={n: 1}) == 1
+    assert Sum(x, (x, 1, n)).n(2, subs={n: 1}) == Float(1, 2)
 
 
 def test_issue_6274():
