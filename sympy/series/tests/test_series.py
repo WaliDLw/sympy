@@ -1,5 +1,6 @@
-from sympy import sin, cos, exp, E, series, oo, S, Derivative, O, Integral, \
-    Function, PoleError, log, sqrt, N, Symbol, Subs, pi, symbols, atan, LambertW, Rational
+from sympy import (sin, cos, exp, E, series, oo, S, Derivative, O, Integral,
+        Float, Function, PoleError, log, sqrt, N, Symbol, Subs, pi, symbols,
+        atan, LambertW, Rational)
 from sympy.abc import x, y, n, k
 from sympy.testing.pytest import raises
 from sympy.series.gruntz import calculate_series
@@ -298,9 +299,16 @@ def test_issue_19534():
             0.96296296296296296296*dt + 1.0) + 0.22431393315265061193*dt + 1.0) - \
             0.35816132904077632692*dt + 1.0) + 5.5065024887242400038*dt + 1.0)/20 + dt/20 + 1
 
-    assert N(expr.series(dt, 0, 8), 20) == -0.00092592592592592596126*dt**7 + 0.0027777777777777783175*dt**6 + \
-    0.016666666666666656027*dt**5 + 0.083333333333333300952*dt**4 + 0.33333333333333337034*dt**3 + \
-    1.0*dt**2 + 1.0*dt + 1.0
+    assert N(expr.series(dt, 0, 8), 20) == (
+            - Float('0.00092592592592592596126289', precision=70) * dt**7
+            + Float('0.0027777777777777783174695', precision=70) * dt**6
+            + Float('0.016666666666666656027029', precision=70) * dt**5
+            + Float('0.083333333333333300951828', precision=70) * dt**4
+            + Float('0.33333333333333337034077', precision=70) * dt**3
+            + Float('1.0', precision=70) * dt**2
+            + Float('1.0', precision=70) * dt
+            + Float('1.0', precision=70)
+        )
 
 
 def test_issue_11407():
