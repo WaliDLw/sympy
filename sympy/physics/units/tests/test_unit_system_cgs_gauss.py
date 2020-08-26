@@ -35,7 +35,7 @@ def test_cgs_gauss_convert_constants():
 
     assert convert_to(speed_of_light, centimeter/second, cgs_gauss) == 29979245800*centimeter/second
 
-    assert convert_to(coulomb_constant, 1, cgs_gauss) == 1
+    assert convert_to(coulomb_constant, 1, cgs_gauss) == 1.0
     assert convert_to(coulomb_constant, newton*meter**2/coulomb**2, cgs_gauss) == 22468879468420441*meter**2*newton/(25000000000*coulomb**2)
     assert convert_to(coulomb_constant, newton*meter**2/coulomb**2, SI) == 22468879468420441*meter**2*newton/(2500000*coulomb**2)
     assert convert_to(coulomb_constant, dyne*centimeter**2/statcoulomb**2, cgs_gauss) == centimeter**2*dyne/statcoulomb**2

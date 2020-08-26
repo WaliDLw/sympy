@@ -237,7 +237,7 @@ def test_mul_div():
 
 
 def test_units():
-    assert convert_to((5*m/s * day) / km, 1) == 432
+    assert convert_to((5*m/s * day) / km, 1) == 432.0
     assert convert_to(foot / meter, meter) == Rational(3048, 10000)
     # amu is a pure mass so mass/mass gives a number, not an amount (mol)
     # TODO: need better simplification routine:

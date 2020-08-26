@@ -919,7 +919,7 @@ class Wavefunction(Function):
 
         """
 
-        return (self.norm == 1.0)
+        return (self.norm == 1.0 or self.norm == 1)
 
     @property  # type: ignore
     @cacheit

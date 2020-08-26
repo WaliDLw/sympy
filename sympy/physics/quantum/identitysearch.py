@@ -153,7 +153,7 @@ def is_scalar_nonsparse_matrix(circuit, nqubits, identity_only, eps=None):
                                  if not identity_only
                                  else matrix_trace)
 
-        is_identity = matrix[0] == 1.0 if identity_only else True
+        is_identity = matrix[0] == 1.0 or matrix[0] == 1 if identity_only else True
 
         has_correct_trace = adjusted_matrix_trace == pow(2, nqubits)
 
