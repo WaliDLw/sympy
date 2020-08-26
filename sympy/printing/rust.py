@@ -70,11 +70,11 @@ known_functions = {
     # "": "is_sign_positive",
     # "": "is_sign_negative",
     # "": "mul_add",
-    "Pow": [(lambda base, exp: exp == -S.One, "recip", 2),           # 1.0/x
-            (lambda base, exp: exp == S.Half, "sqrt", 2),            # x ** 0.5
-            (lambda base, exp: exp == -S.Half, "sqrt().recip", 2),   # 1/(x ** 0.5)
+    "Pow": [(lambda base, exp: exp == -S.One or exp == -1.0, "recip", 2),           # 1.0/x
+            (lambda base, exp: exp == S.Half or exp == 0.5, "sqrt", 2),            # x ** 0.5
+            (lambda base, exp: exp == -S.Half or exp == -0.5, "sqrt().recip", 2),   # 1/(x ** 0.5)
             (lambda base, exp: exp == Rational(1, 3), "cbrt", 2),    # x ** (1/3)
-            (lambda base, exp: base == S.One*2, "exp2", 3),          # 2 ** x
+            (lambda base, exp: base == S.One*2 or base == 2.0, "exp2", 3),          # 2 ** x
             (lambda base, exp: exp.is_integer, "powi", 1),           # x ** y, for i32
             (lambda base, exp: not exp.is_integer, "powf", 1)],      # x ** y, for f64
     "exp": [(lambda exp: True, "exp", 2)],   # e ** x

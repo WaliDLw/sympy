@@ -341,12 +341,12 @@ class FCodePrinter(CodePrinter):
 
     def _print_Pow(self, expr):
         PREC = precedence(expr)
-        if expr.exp == -1:
+        if expr.exp == -1 or expr.exp == -1.0:
             return '%s/%s' % (
                 self._print(literal_dp(1)),
                 self.parenthesize(expr.base, PREC)
             )
-        elif expr.exp == 0.5:
+        elif expr.exp == 0.5 or expr.exp == S.Half:
             if expr.base.is_integer:
                 # Fortran intrinsic sqrt() does not accept integer argument
                 if expr.base.is_Number:

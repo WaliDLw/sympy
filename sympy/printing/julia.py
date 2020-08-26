@@ -203,14 +203,14 @@ class JuliaCodePrinter(CodePrinter):
 
         PREC = precedence(expr)
 
-        if expr.exp == S.Half:
+        if expr.exp == S.Half or expr.exp == 0.5:
             return "sqrt(%s)" % self._print(expr.base)
 
         if expr.is_commutative:
-            if expr.exp == -S.Half:
+            if expr.exp == -S.Half or expr.exp == -0.5:
                 sym = '/' if expr.base.is_number else './'
                 return "1" + sym + "sqrt(%s)" % self._print(expr.base)
-            if expr.exp == -S.One:
+            if expr.exp == -S.One or expr.exp == -1.0:
                 sym = '/' if expr.base.is_number else './'
                 return "1" + sym + "%s" % self.parenthesize(expr.base, PREC)
 

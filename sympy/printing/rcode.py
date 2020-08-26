@@ -12,6 +12,7 @@ from __future__ import print_function, division
 
 from typing import Any, Dict
 
+from sympy.core.singleton import S
 from sympy.printing.codeprinter import CodePrinter
 from sympy.printing.precedence import precedence, PRECEDENCE
 from sympy.sets.fancysets import Range
@@ -145,9 +146,9 @@ class RCodePrinter(CodePrinter):
         if "Pow" in self.known_functions:
             return self._print_Function(expr)
         PREC = precedence(expr)
-        if expr.exp == -1:
+        if expr.exp == -1 or expr.exp == -1.0:
             return '1.0/%s' % (self.parenthesize(expr.base, PREC))
-        elif expr.exp == 0.5:
+        elif expr.exp == 0.5 or expr.exp == S.Half:
             return 'sqrt(%s)' % self._print(expr.base)
         else:
             return '%s^%s' % (self.parenthesize(expr.base, PREC),

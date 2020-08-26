@@ -257,9 +257,9 @@ class GLSLPrinter(CodePrinter):
 
     def _print_Pow(self, expr):
         PREC = precedence(expr)
-        if expr.exp == -1:
+        if expr.exp == -1 or expr.exp.is_Float and expr.exp == expr.exp.round(0) and int(expr.exp) == -1:
             return '1.0/%s' % (self.parenthesize(expr.base, PREC))
-        elif expr.exp == 0.5:
+        elif expr.exp == S.Half or expr.exp == 0.5:
             return 'sqrt(%s)' % self._print(expr.base)
         else:
             try:

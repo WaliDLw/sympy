@@ -99,9 +99,9 @@ class JavascriptCodePrinter(CodePrinter):
 
     def _print_Pow(self, expr):
         PREC = precedence(expr)
-        if expr.exp == -1:
+        if expr.exp == -1 or expr.exp.is_Float and expr.exp == expr.exp.round(0) and int(expr.exp) == -1:
             return '1/%s' % (self.parenthesize(expr.base, PREC))
-        elif expr.exp == 0.5:
+        elif expr.exp == 0.5 or expr.exp == S.Half:
             return 'Math.sqrt(%s)' % self._print(expr.base)
         elif expr.exp == S.One/3:
             return 'Math.cbrt(%s)' % self._print(expr.base)
