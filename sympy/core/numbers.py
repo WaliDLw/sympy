@@ -1847,7 +1847,6 @@ class Rational(Number):
         return self.ceiling()
 
     def __eq__(self, other):
-        from sympy.core.power import integer_log
         try:
             other = _sympify(other)
         except SympifyError:
