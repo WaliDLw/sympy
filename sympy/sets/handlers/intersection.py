@@ -1,5 +1,5 @@
 from sympy import (S, Dummy, Lambda, symbols, Interval, Intersection, Set,
-                   EmptySet, FiniteSet, Union, ComplexRegion)
+                   EmptySet, FiniteSet, Float, Union, ComplexRegion)
 from sympy.multipledispatch import dispatch
 from sympy.sets.conditionset import ConditionSet
 from sympy.sets.fancysets import (Integers, Naturals, Reals, Range,
@@ -400,6 +400,12 @@ def intersection_sets(a, b): # noqa:F811
             left_open = a.left_open
         else:
             start = a.start
+            if a.start != b.start:
+                # For example Integer(2) != Float(2)
+                # Prefer the Float boundary because Floats should be
+                # contagious in calculations.
+                if b.start.has(Float) and not a.start.has(Float):
+                    start = b.start
             left_open = a.left_open or b.left_open
 
         if a.end < b.end:
@@ -410,6 +416,12 @@ def intersection_sets(a, b): # noqa:F811
             right_open = b.right_open
         else:
             end = a.end
+            if a.end != b.end:
+                # For example Integer(2) != Float(2)
+                # Prefer the Float boundary because Floats should be
+                # contagious in calculations.
+                if b.end.has(Float) and not a.end.has(Float):
+                    end = b.end
             right_open = a.right_open or b.right_open
 
         if end - start == 0 and (left_open or right_open):
