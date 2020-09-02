@@ -88,7 +88,7 @@ def _unevaluated_Mul(*args):
 
 class Mul(Expr, AssocOp):
 
-    __slots__ = ()
+    __slots__ = ('is_commutative')
 
     is_Mul = True
 
@@ -959,6 +959,8 @@ class Mul(Expr, AssocOp):
 
     def matches(self, expr, repl_dict={}, old=False):
         expr = sympify(expr)
+        if not isinstance(expr, Expr):
+            return None
         repl_dict = repl_dict.copy()
         if self.is_commutative and expr.is_commutative:
             return self._matches_commutative(expr, repl_dict, old)

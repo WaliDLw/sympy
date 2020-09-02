@@ -29,7 +29,6 @@ from sympy import expand
 class SeqBase(Basic):
     """Base class for sequences"""
 
-    is_commutative = True
     _op_priority = 15
 
     @staticmethod

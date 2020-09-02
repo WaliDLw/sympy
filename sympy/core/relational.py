@@ -1329,6 +1329,9 @@ def is_eq(lhs, rhs):
         isinstance(rhs, Boolean)):
         return False  # only Booleans can equal Booleans
 
+    if not (isinstance(lhs, Expr) and isinstance(rhs, Expr)):
+        return None
+
     if lhs.is_infinite or rhs.is_infinite:
         if fuzzy_xor([lhs.is_infinite, rhs.is_infinite]):
             return False
@@ -1361,6 +1364,7 @@ def is_eq(lhs, rhs):
         if not (arglhs == S.NaN and argrhs == S.NaN):
             return fuzzy_bool(Eq(arglhs, argrhs))
 
+    # XXX: This check isn't needed any more
     if all(isinstance(i, Expr) for i in (lhs, rhs)):
         # see if the difference evaluates
         dif = lhs - rhs

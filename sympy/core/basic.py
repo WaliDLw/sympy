@@ -625,6 +625,7 @@ class Basic(Printable, metaclass=ManagedProperties):
         else:
             return expr_to_call
 
+    # XXX: This method should be moved to Expr rather than Basic.
     def is_hypergeometric(self, k):
         from sympy.simplify import hypersimp
         from sympy.functions import Piecewise
@@ -632,6 +633,7 @@ class Basic(Printable, metaclass=ManagedProperties):
             return None
         return hypersimp(self, k) is not None
 
+    # XXX: This method should be moved to Expr rather than Basic.
     @property
     def is_comparable(self):
         """Return True if self can be computed to a real number
